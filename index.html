@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="xEyMZ9ThS4rpYEuodRwBhJD_bKiungjJ3YdxQG0mm0" />
+    <title>Smart Reasoning Hub - All Chapters</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f7f6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Top Header Bar */
+        header {
+            background: #0f172a;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            height: 60px;
+            flex-shrink: 0;
+        }
+        header h2 {
+            font-size: 18px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .header-links {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .header-btn {
+            color: white;
+            padding: 6px 14px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .math-btn { background: #1e3c72; }
+        .math-btn:hover { background: #162b50; }
+        .calc-btn { background: #2563eb; }
+        .calc-btn:hover { background: #1d4ed8; }
+        .tool-btn { background: #059669; }
+        .tool-btn:hover { background: #047857; }
+
+        /* App Container */
+        .app-container {
+            display: flex;
+            flex-grow: 1;
+            height: calc(100vh - 60px);
+            overflow: hidden;
+        }
+
+        /* Left Sidebar with Sections & Nested Chapters */
+        .sidebar {
+            width: 320px;
+            background: #1e293b;
+            color: white;
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+        .sidebar h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            text-align: center;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .section-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #38bdf8;
+            margin: 15px 0 8px 5px;
+            font-weight: bold;
+            border-left: 3px solid #38bdf8;
+            padding-left: 6px;
+        }
+
+        .chapter-btn {
+            display: block;
+            width: 100%;
+            background: #334155;
+            color: white;
+            border: none;
+            padding: 9px 12px;
+            margin-bottom: 5px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: left;
+        }
+        .chapter-btn:hover, .chapter-btn.active {
+            background: #f59e0b;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            overflow-y: auto;
+        }
+        .container {
+            background: #ffffff;
+            width: 100%;
+            max-width: 650px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+        
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #444;
+        }
+        .timer {
+            background: #ef4444;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 13px;
+        }
+        .level-badge {
+            display: inline-block;
+            background: #0f172a;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+        .question {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            background: #f1f5f9;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+            text-align: left;
+            transition: 0.3s;
+        }
+        .options button:hover:not(:disabled) {
+            background: #e2e8f0;
+            border-color: #0f172a;
+        }
+        .options button.correct {
+            background: #dcfce7 !important;
+            border-color: #22c55e !important;
+            color: #166534;
+        }
+        .options button.wrong {
+            background: #fee2e2 !important;
+            border-color: #ef4444 !important;
+            color: #991b1b;
+        }
+
+        #explanation-box {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+            font-size: 14px;
+            border-left: 5px solid #0f172a;
+        }
+        .correct-bg { background: #dcfce7; border-left-color: #22c55e; color: #166534; }
+        .wrong-bg { background: #fee2e2; border-left-color: #ef4444; color: #991b1b; }
+
+        .next-btn {
+            display: none;
+            width: 100%;
+            padding: 12px;
+            background: #0f172a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        .next-btn:hover { background: #1e293b; }
+        
+        .score-card { text-align: center; display: none; }
+        .placeholder-text { text-align: center; color: #64748b; font-size: 16px; margin-top: 20px; }
+
+        /* Timer Control Box on Welcome Panel */
+        .settings-box {
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #cbd5e1;
+        }
+        .settings-box label {
+            font-weight: bold;
+            font-size: 14px;
+            color: #334155;
+            cursor: pointer;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc; transition: .4s; border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px;
+            background-color: white; transition: .4s; border-radius: 50%;
+        }
+        input:checked + .slider { background-color: #22c55e; }
+        input:checked + .slider:before { transform: translateX(26px); }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            body { height: auto; overflow: auto; }
+            .app-container { flex-direction: column; height: auto; overflow: visible; }
+            header { height: auto; flex-direction: column; gap: 10px; padding: 12px; }
+            .sidebar { width: 100%; height: auto; display: flex; flex-direction: column; padding: 10px; }
+            .sidebar h2 { display: none; }
+            .main-content { padding: 15px; overflow: visible; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Header Bar -->
+    <header>
+        <h2>🧠 Smart Reasoning Hub</h2>
+        <div class="header-links">
+            <a href="https://smarttoolshub-in.github.io/Queses/" target="_blank" class="header-btn math-btn">
+                📚 Math Hub ➔
+            </a>
+            <a href="https://smarttoolshub-in.github.io/SMART-TOOL/" target="_blank" class="header-btn calc-btn">
+                ⚡ Calculators ➔
+            </a>
+            <a href="https://smarttoolshub-in.github.io/doctool/" target="_blank" class="header-btn tool-btn">
+                🛠️ DocTools ➔
+            </a>
+        </div>
+    </header>
+
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- Left Sidebar with All 27 Chapters -->
+        <div class="sidebar" id="sidebar">
+            <h2>🎯 Reasoning Hub</h2>
+            
+            <!-- VERBAL REASONING SECTION -->
+            <div class="section-title">1. Verbal Reasoning</div>
+            <button class="chapter-btn" onclick="loadChapter('Coding-Decoding')">🔤 Coding-Decoding</button>
+            <button class="chapter-btn" onclick="loadChapter('Blood Relation')">👨‍👩‍👧 Blood Relation</button>
+            <button class="chapter-btn" onclick="loadChapter('Direction Sense')">🧭 Direction Sense</button>
+            <button class="chapter-btn" onclick="loadChapter('Clock & Calendar')">⏰ Clock & Calendar</button>
+            <button class="chapter-btn" onclick="loadChapter('Syllogism')">⚖️ Syllogism (न्याय वाक्य)</button>
+            <button class="chapter-btn" onclick="loadChapter('Dice & Cube')">🎲 Dice & Cube (पासा और घन)</button>
+            <button class="chapter-btn" onclick="loadChapter('Ranking & Order')">📊 Ranking & Order</button>
+            <button class="chapter-btn" onclick="loadChapter('Sitting Arrangement')">🪑 Sitting Arrangement</button>
+            <button class="chapter-btn" onclick="loadChapter('Series')">🔢 Number & Alphabet Series</button>
+            <button class="chapter-btn" onclick="loadChapter('Analogy')">🔗 Analogy (सादृश्यता)</button>
+            <button class="chapter-btn" onclick="loadChapter('Classification')">📂 Classification (वर्गीकरण)</button>
+            <button class="chapter-btn" onclick="loadChapter('Mathematical Operations')">➕ Mathematical Operations</button>
+            <button class="chapter-btn" onclick="loadChapter('Word Formation')">🔠 Word Formation</button>
+            <button class="chapter-btn" onclick="loadChapter('Matrix')">🔢 Matrix (मैट्रिक्स)</button>
+
+            <!-- NON-VERBAL REASONING SECTION -->
+            <div class="section-title">2. Non-Verbal Reasoning</div>
+            <button class="chapter-btn" onclick="loadChapter('Mirror Image')">🖼️ Mirror & Water Image</button>
+            <button class="chapter-btn" onclick="loadChapter('Paper Folding')">📄 Paper Folding & Cutting</button>
+            <button class="chapter-btn" onclick="loadChapter('Figure Series')">📈 Figure Series</button>
+            <button class="chapter-btn" onclick="loadChapter('Figure Analogy')">🔲 Figure Analogy</button>
+            <button class="chapter-btn" onclick="loadChapter('Figure Classification')">🗂️ Figure Classification</button>
+            <button class="chapter-btn" onclick="loadChapter('Embedded Figures')">🔍 Embedded Figures</button>
+            <button class="chapter-btn" onclick="loadChapter('Completion of Figures')">🧩 Completion of Figures</button>
+            <button class="chapter-btn" onclick="loadChapter('Counting Figures')">🔺 Counting Figures (आकृतियाँ गिनना)</button>
+
+            <!-- LOGICAL REASONING SECTION -->
+            <div class="section-title">3. Logical Reasoning</div>
+            <button class="chapter-btn" onclick="loadChapter('Statement & Conclusion')">💡 Statement & Conclusion</button>
+            <button class="chapter-btn" onclick="loadChapter('Statement & Assumptions')">💭 Statement & Assumptions</button>
+            <button class="chapter-btn" onclick="loadChapter('Course of Action')">🛠️ Course of Action (कार्रवाई)</button>
+            <button class="chapter-btn" onclick="loadChapter('Argument')">🗣️ Argument (तर्क)</button>
+            <button class="chapter-btn" onclick="loadChapter('Cause & Effect')">⚡ Cause & Effect</button>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Quiz Active Box -->
+            <div class="container" id="quiz-container-main" style="display: none;">
+                <div class="top-bar">
+                    <span id="progress-text">सवाल: 1 / 5</span>
+                    <span class="timer" id="timer">⏱️ 15s</span>
+                </div>
+
+                <div id="level-badge" class="level-badge">Chapter Name</div>
+                <div id="question" class="question">सवाल लोड हो रहा है...</div>
+                
+                <div class="options" id="options-box"></div>
+                <div id="explanation-box"></div>
+                
+                <button class="next-btn" id="next-btn" onclick="nextQuestion()">अगला सवाल ➡️</button>
+            </div>
+
+            <!-- Welcome Placeholder with Timer Toggle -->
+            <div class="container" id="welcome-msg">
+                <h2 style="color: #0f172a; text-align: center;">👋 Welcome to Reasoning Hub!</h2>
+                <p class="placeholder-text">कृपया बायीं तरफ से कोई भी चैप्टर चुनें और क्विज़ शुरू करें।</p>
+                
+                <div class="settings-box">
+                    <label for="timerToggle">⏱️ क्विज़ टाइमर (Timer On/Off):</label>
+                    <label class="switch">
+                        <input type="checkbox" id="timerToggle" checked onchange="toggleTimerSetting()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Score Card -->
+            <div class="container score-card" id="score-card">
+                <h2>क्विज़ समाप्त! 🎉</h2>
+                <p id="final-score" style="font-size: 18px; margin: 15px 0;"></p>
+                <button class="next-btn" style="display: block;" onclick="restartChapter()">दोबारा खेलें 🔄</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // सभी 27 चैप्टर्स के लिए प्रश्न डेटा
+    const quizData = {
+        "Coding-Decoding": [
+            { "q": "यदि 'CAT' को 'DBU' लिखा जाता है, तो 'DOG' को क्या लिखा जाएगा?", "options": ["EPH", "FQI", "DPH", "EPG"], "answer": 0, "fact": "हर अक्षर में +1 आगे बढ़ाया गया है: C->D, A->B, T->U." }
+        ],
+        "Blood Relation": [
+            { "q": "A, B का भाई है। C, A की माँ है। D, C का पिता है। B का D से क्या संबंध है?", "options": ["पुत्र", "नाती / नातिन (Grandchild)", "पुत्री", "भाई"], "answer": 1, "fact": "B की माँ C है और C के पिता D हैं, इसलिए B, D का नाती या नातिन होगा।" }
+        ],
+        "Direction Sense": [
+            { "q": "एक व्यक्ति उत्तर की ओर 10 किमी चलता है, फिर दाएँ मुड़कर 5 किमी चलता है। अब उसका मुख किस दिशा में है?", "options": ["उत्तर", "दक्षिण", "पूर्व", "पश्चिम"], "answer": 2, "fact": "उत्तर की ओर जाने के बाद दाएँ मुड़ने पर व्यक्ति पूर्व (East) दिशा की ओर हो जाता है।" }
+        ],
+        "Clock & Calendar": [
+            { "q": "यदि 1 जनवरी 2024 को सोमवार था, तो उसी वर्ष 5 जनवरी को कौन सा दिन होगा?", "options": ["मंगलवार", "बुधवार", "गुरुवार", "शुक्रवार"], "answer": 3, "fact": "1 Jan (Monday) + 4 days = Friday (5 Jan)." }
+        ],
+        "Syllogism": [
+            { "q": "कथन: सभी बिल्लियाँ कुत्ते हैं। सभी कुत्ते जानवर हैं। निष्कर्ष: सभी बिल्लियाँ जानवर हैं।", "options": ["सत्य", "असत्य", "संभवतः सत्य", "इनमें से कोई नहीं"], "answer": 0, "fact": "न्याय वाक्य के नियमानुसार सभी A निश्चित रूप से C होते हैं।" }
+        ],
+        "Dice & Cube": [
+            { "q": "एक पासे की दो स्थितियों में यदि ऊपरी फलक पर 4 है, तो उसके विपरीत फलक पर क्या होगा यदि 1, 2, 3, 5 आसपास हों?", "options": ["6", "5", "3", "1"], "answer": 0, "fact": "मानक पासे या सामान्य पासे के नियमों के अनुसार विपरीत फलक निकाला जाता है।" }
+        ],
+        "Ranking & Order": [
+            { "q": "एक पंक्ति में राम बाएं से 10वें और दाएं से 15वें स्थान पर है। पंक्ति में कुल कितने व्यक्ति हैं?", "options": ["24", "25", "26", "23"], "answer": 0, "fact": "कुल = (बाएं + दाएं) - 1 => (10 + 15) - 1 = 24." }
+        ],
+        "Sitting Arrangement": [
+            { "q": "पाँच मित्र गोल मेज के चारों ओर केंद्र की ओर मुँह करके बैठे हैं। A, B के ठीक बाएं है...", "options": ["तथ्य आधारित प्रश्न", "विकल्प B", "विकल्प C", "विकल्प D"], "answer": 0, "fact": "वृत्ताकार बैठने की व्यवस्था में क्रम के अनुसार हल किया जाता है।" }
+        ],
+        "Series": [
+            { "q": "संख्या श्रृंखला पूरी करें: 2, 6, 12, 20, ?", "options": ["28", "30", "32", "36"], "answer": 1, "fact": "अंतर बढ़ रहा है: +4, +6, +8, अत: अगला अंतर +10 होगा (20 + 10 = 30)." }
+        ],
+        "Analogy": [
+            { "q": "पुस्तक : पुस्तकालय :: वृक्ष : ?", "options": ["जंगल", "पत्ती", "तना", "फल"], "answer": 0, "fact": "जिस प्रकार कई पुस्तकों का संग्रह पुस्तकालय होता है, उसी प्रकार कई वृक्षों का समूह जंगल होता है।" }
+        ],
+        "Classification": [
+            { "q": "इनमें से विषम (Different) कौन सा है? (गाजर, आलू, टमाटर, मूली)", "options": ["गाजर", "आलू", "टमाटर", "मूली"], "answer": 2, "fact": "टमाटर जमीन के ऊपर (फल के रूप में) उगता है, जबकि बाकी सभी जमीन के अंदर (तने या जड़) उगते हैं।" }
+        ],
+        "Mathematical Operations": [
+            { "q": "यदि '+' का अर्थ '-', '-' का अर्थ '×', '×' का अर्थ '÷' हो, तो 10 - 5 + 3 = ?", "options": ["53", "47", "50", "48"], "answer": 0, "fact": "चिन्ह बदलने पर समीकरण बनता है: 10 × 5 - 3 = 50 - 3 = 47 (या सही गणना अनुसार)." }
+        ],
+        "Word Formation": [
+            { "q": "शब्द 'EXAMINATION' के अक्षरों से कौन सा शब्द बनाया जा सकता है?", "options": ["NATION", "ACTION", "TIGER", "MONKEY"], "answer": 0, "fact": "NATION शब्द के सभी अक्षर EXAMINATION में मौजूद हैं।" }
+        ],
+        "Matrix": [
+            { "q": "मैट्रिक्स में लुप्त संख्या ज्ञात कीजिए: (2, 4, 6 | 3, 6, 9 | 4, 8, ?)", "options": ["10", "11", "12", "14"], "answer": 2, "fact": "प्रत्येक पंक्ति में संख्याएं 2 के गुणक में बढ़ रही हैं (4×2 = 8, अत: अंतिम 12)।" }
+        ],
+        "Mirror Image": [
+            { "q": "घड़ी में 3:00 बजे हैं, तो दर्पण प्रतिबिंब (Mirror Image) में समय क्या दिखेगा?", "options": ["8:00", "9:00", "10:00", "6:00"], "answer": 1, "fact": "11:60 में से 3:00 घटाने पर 9:00 प्राप्त होता है।" }
+        ],
+        "Paper Folding": [
+            { "q": "कागज को आधा मोड़ने और छेद करने पर खुलने पर क्या प्रभाव पड़ता है?", "options": ["सिमेट्रिकल पैटर्न बनता है", "कागज फट जाता है", "कोई बदलाव नहीं", "रंग बदलता है"], "answer": 0, "fact": "कागज को मोड़ने और काटने पर सममितीय (Symmetrical) आकृतियाँ उभरती हैं।" }
+        ],
+        "Figure Series": [
+            { "q": "अगली आकृति पहचानिए: (▲, ■, ●, ▲, ■, ?)", "options": ["▲", "■", "●", "◆"], "answer": 2, "fact": "पैटर्न दोहराया जा रहा है।" }
+        ],
+        "Figure Analogy": [
+            { "q": "आकृति A का संबंध आकृति B से है, तो C का संबंध किससे होगा?", "options": ["विकल्प 1", "विकल्प 2", "विकल्प 3", "विकल्प 4"], "answer": 0, "fact": "आकृतियों के घूमने (Rotation) और डिजाइन पर आधारित।" }
+        ],
+        "Figure Classification": [
+            { "q": "दी गई चार आकृतियों में से भिन्न आकृति को पहचानिए।", "options": ["आकृति 1", "आकृति 2", "आकृति 3", "आकृति 4"], "answer": 1, "fact": "अन्य आकृतियों की तुलना में रेखाओं का अंतर।" }
+        ],
+        "Embedded Figures": [
+            { "q": "दी गई उत्तर आकृति में से किसमें प्रश्न आकृति छिपी हुई है?", "options": ["आकृति A", "आकृति B", "आकृति C", "आकृति D"], "answer": 0, "fact": "छिपी हुई आकृति की पहचान करना।" }
+        ],
+        "Completion of Figures": [
+            { "q": "अपूर्ण आकृति को पूरा करने के लिए सही विकल्प चुनें।", "options": ["विकल्प A", "विकल्प B", "विकल्प C", "विकल्प D"], "answer": 2, "fact": "पैटर्न को देखकर खाली हिस्से को भरना।" }
+        ],
+        "Counting Figures": [
+            { "q": "दिए गए त्रिभुज में कुल कितने त्रिभुज हैं?", "options": ["8", "12", "16", "24"], "answer": 2, "fact": "शॉर्टकट ट्रिक्स द्वारा त्रिकोणीय खंडों की गणना।" }
+        ],
+        "Statement & Conclusion": [
+            { "q": "कथन: सभी खिलाड़ी मेहनती होते हैं। राहुल एक खिलाड़ी है। निष्कर्ष: राहुल मेहनती है।", "options": ["निष्कर्ष निकलता है", "निष्कर्ष नहीं निकलता", "संभव नहीं", "इनमें से कोई नहीं"], "answer": 0, "fact": "कथन के अनुसार राहुल खिलाड़ी है और सभी खिलाड़ी मेहनती हैं, अतः निष्कर्ष सत्य है।" }
+        ],
+        "Statement & Assumptions": [
+            { "q": "कथन: 'कल समय पर कार्यालय पहुंचे।' - प्रबंधक की चेतावनी। पूर्वधारणा: कर्मचारी देर से आते हैं।", "options": ["पूर्वधारणा निहित है", "पूर्वधारणा निहित नहीं है", "दोनों", "कोई नहीं"], "answer": 0, "fact": "चेतावनी तभी दी जाती है जब ऐसी स्थिति मौजूद हो।" }
+        ],
+        "Course of Action": [
+            { "q": "समस्या: शहर में लगातार पानी की किल्लत बढ़ रही है। कार्रवाई: सरकार को तुरंत पानी के टैंकर भेजने चाहिए।", "options": ["कार्रवाई 1 अनुसरण करती है", "कार्रवाई अनुसरण नहीं करती", "दोनों", "इनमें से कोई नहीं"], "answer": 0, "fact": "आपातकालीन स्थिति में टैंकर भेजना एक उचित कदम है।" }
+        ],
+        "Argument": [
+            { "q": "कथन: क्या देश में परीक्षा प्रणाली पूरी तरह समाप्त कर देनी चाहिए? तर्क: हाँ, इससे तनाव कम होगा।", "options": ["तर्क मजबूत है", "तर्क कमजोर है", "दोनों", "कोई नहीं"], "answer": 1, "fact": "परीक्षाएं योग्यता आंकने का एकमात्र पैमाना हैं, अतः यह कमजोर तर्क है।" }
+        ],
+        "Cause & Effect": [
+            { "q": "कथन I: इस वर्ष अच्छी बारिश हुई। कथन II: किसानों की फसल इस बार बहुत अच्छी हुई।", "options": ["I कारण है और II उसका प्रभाव है", "II कारण है और I उसका प्रभाव है", "दोनों स्वतंत्र कारण हैं", "कोई संबंध नहीं"], "answer": 0, "fact": "अच्छी बारिश होना कारण है और फसल का अच्छा होना उसका परिणाम (प्रभाव) है।" }
+        ]
+    };
+
+    let currentChapter = "";
+    let currentQuestions = [];
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let timeLeft = 15;
+    let timerInterval;
+    let isTimerOn = true;
+
+    const quizContainerMain = document.getElementById("quiz-container-main");
+    const welcomeMsg = document.getElementById("welcome-msg");
+    const scoreCard = document.getElementById("score-card");
+    const timerDisplay = document.getElementById("timer");
+
+    function toggleTimerSetting() {
+        isTimerOn = document.getElementById("timerToggle").checked;
+    }
+
+    function loadChapter(chapterName) {
+        document.querySelectorAll(".chapter-btn").forEach(b => b.classList.remove("active"));
+        event.target.classList.add("active");
+
+        currentChapter = chapterName;
+        currentQuestions = quizData[chapterName] || [
+            { "q": "इस चैप्टर के सवाल जल्द जोड़े जाएंगे!", "options": ["विकल्प 1", "विकल्प 2", "विकल्प 3", "विकल्प 4"], "answer": 0, "fact": "डेटा अपडेट किया जा रहा है।" }
+        ];
+        currentQuestionIndex = 0;
+        score = 0;
+
+        welcomeMsg.style.display = "none";
+        scoreCard.style.display = "none";
+        quizContainerMain.style.display = "block";
+        
+        document.getElementById("level-badge").innerText = chapterName;
+        loadQuestion();
+    }
+
+    function startTimer() {
+        clearInterval(timerInterval);
+        if (!isTimerOn) {
+            timerDisplay.style.display = "none";
+            return;
+        }
+        
+        timerDisplay.style.display = "inline-block";
+        timeLeft = 15;
+        timerDisplay.innerText = `⏱️ ${timeLeft}s`;
+        
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            timerDisplay.innerText = `⏱️ ${timeLeft}s`;
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                timeOutAction();
+            }
+        }, 1000);
+    }
+
+    function timeOutAction() {
+        const currentQuiz = currentQuestions[currentQuestionIndex];
+        const buttons = document.getElementById("options-box").getElementsByTagName("button");
+        for (let btn of buttons) btn.disabled = true;
+        if(buttons[currentQuiz.answer]) buttons[currentQuiz.answer].classList.add("correct");
+        showExplanation(false, "समय समाप्त! ⌛", currentQuiz.fact);
+    }
+
+    function loadQuestion() {
+        startTimer();
+        
+        const explanationBox = document.getElementById("explanation-box");
+        const nextBtn = document.getElementById("next-btn");
+        explanationBox.style.display = "none";
+        nextBtn.style.display = "none";
+        
+        document.getElementById("progress-text").innerText = `सवाल: ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
+        const currentQuiz = currentQuestions[currentQuestionIndex];
+        document.getElementById("question").innerText = `Q. ${currentQuiz.q}`;
+        
+        const optionsBox = document.getElementById("options-box");
+        optionsBox.innerHTML = "";
+        currentQuiz.options.forEach((option, index) => {
+            const btn = document.createElement("button");
+            btn.innerText = option;
+            btn.onclick = () => selectOption(index, btn);
+            optionsBox.appendChild(btn);
+        });
+    }
+
+    function selectOption(selectedIndex, selectedBtn) {
+        clearInterval(timerInterval);
+        const currentQuiz = currentQuestions[currentQuestionIndex];
+        const buttons = document.getElementById("options-box").getElementsByTagName("button");
+
+        for (let btn of buttons) btn.disabled = true;
+
+        if (selectedIndex === currentQuiz.answer) {
+            selectedBtn.classList.add("correct");
+            score++;
+            showExplanation(true, "बिल्कुल सही! 🎯", currentQuiz.fact);
+        } else {
+            selectedBtn.classList.add("wrong");
+            if(buttons[currentQuiz.answer]) buttons[currentQuiz.answer].classList.add("correct");
+            showExplanation(false, "गलत जवाब! ❌", currentQuiz.fact);
+        }
+    }
+
+    function showExplanation(isCorrect, title, factText) {
+        const explanationBox = document.getElementById("explanation-box");
+        explanationBox.className = isCorrect ? "correct-bg" : "wrong-bg";
+        explanationBox.innerHTML = `<strong>${title}</strong><br>${factText}`;
+        explanationBox.style.display = "block";
+        document.getElementById("next-btn").style.display = "block";
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < currentQuestions.length) {
+            loadQuestion();
+        } else {
+            clearInterval(timerInterval);
+            quizContainerMain.style.display = "none";
+            scoreCard.style.display = "block";
+            document.getElementById("final-score").innerText = `आपने ${currentQuestions.length} में से ${score} सवालों के सही जवाब दिए हैं!`;
+        }
+    }
+
+    function restartChapter() {
+        currentQuestionIndex = 0;
+        score = 0;
+        scoreCard.style.display = "none";
+        quizContainerMain.style.display = "block";
+        loadQuestion();
+    }
+</script>
+
+</body>
+</html>
