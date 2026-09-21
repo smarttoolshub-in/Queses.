@@ -2320,9 +2320,7 @@
                 "options": ["घटना के मूल स्रोत और उसके परिणामी प्रभाव के बीच तार्किक संबंध पहचानना", "सिर्फ तुक्का लगाना", "दोनों को असंबद्ध मानना", "कथनों को गलत साबित करना"], 
                 "answer": 0, "fact": "कौन सी घटना पहले घटी (कारण) और उसके होने से दूसरी कौन सी घटना घटी (प्रभाव), यही इसका मुख्य आधार है।" }
         ],
-    };
-
-    let currentChapter = "";
+        let currentChapter = "";
     let currentQuestions = [];
     let currentQuestionIndex = 0;
     let score = 0;
@@ -2339,51 +2337,23 @@
         isTimerOn = document.getElementById("timerToggle").checked;
     }
 
-   function loadChapter(chapterName) {
-    document.querySelectorAll(".chapter-btn").forEach(b => b.classList.remove("active"));
-    
-    if (typeof event !== 'undefined' && event && event.target) {
-        event.target.classList.add("active");
-    }
-
-    currentChapter = chapterName;
-currentQuestions = quizData[chapterName] || [
-    { "q": "इस चैप्टर के सवाल जल्द जोड़े जाएंगे!", "options": ["विकल्प 1", "विकल्प 2", "विकल्प 3", "विकल्प 4"], "answer": 0, "fact": "जल्द ही अपडेट किया जाएगा" }
-];
-    currentQuestionIndex = 0;
-    score = 0;
-    
-    welcomeMsg.style.display = "none";
-    scoreCard.style.display = "none";
-    quizContainerMain.style.display = "block";
-    
-    document.getElementById("level-badge").innerText = chapterName;
-    loadQuestion();
-   }
-
-    currentChapter = chapterName;
-    currentQuestions = quizData[chapterName] || [
-        { "q": "इस चैप्टर के सवाल जल्द जोड़े जाएंगे!", "options": ["विकल्प 1", "विकल्प 2", "विकल्प 3", "विकल्प 4"], "answer": 0, "fact": "जल्द ही अपडेट किया जाएगा" }
-    ];
-    currentQuestionIndex = 0;
-    score = 0;
-    
-    quizContainerMain.style.display = "block";
-    scoreCard.style.display = "none";
-    document.getElementById("level-badge").innerText = chapterName;
-    loadQuestion();
-    }
+    function loadChapter(chapterName) {
+        document.querySelectorAll(".chapter-btn").forEach(b => b.classList.remove("active"));
+        
+        if (typeof event !== 'undefined' && event && event.target) {
+            event.target.classList.add("active");
+        }
 
         currentChapter = chapterName;
         currentQuestions = quizData[chapterName] || [
-            { "q": "इस चैप्टर के सवाल जल्द जोड़े जाएंगे!", "options": ["विकल्प 1", "विकल्प 2", "विकल्प 3", "विकल्प 4"], "answer": 0, "fact": "डेटा अपडेट किया जा रहा है।" }
+            { "q": "इस चैप्टर के सवाल जल्द जोड़े जाएंगे!", "options": ["विकल्प 1", "विकल्प 2", "विकल्प 3", "विकल्प 4"], "answer": 0, "fact": "जल्द ही अपडेट किया जाएगा" }
         ];
         currentQuestionIndex = 0;
         score = 0;
-
-        welcomeMsg.style.display = "none";
-        scoreCard.style.display = "none";
-        quizContainerMain.style.display = "block";
+        
+        if(welcomeMsg) welcomeMsg.style.display = "none";
+        if(scoreCard) scoreCard.style.display = "none";
+        if(quizContainerMain) quizContainerMain.style.display = "block";
         
         document.getElementById("level-badge").innerText = chapterName;
         loadQuestion();
@@ -2428,13 +2398,13 @@ currentQuestions = quizData[chapterName] || [
         
         document.getElementById("progress-text").innerText = `सवाल: ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
         const currentQuiz = currentQuestions[currentQuestionIndex];
-document.getElementById("question").innerHTML = `Q. ${currentQuiz.q}`;
+        document.getElementById("question").innerHTML = `Q. ${currentQuiz.q}`;
         
         const optionsBox = document.getElementById("options-box");
         optionsBox.innerHTML = "";
         currentQuiz.options.forEach((option, index) => {
             const btn = document.createElement("button");
-btn.innerHTML = option;
+            btn.innerHTML = option;
             btn.onclick = () => selectOption(index, btn);
             optionsBox.appendChild(btn);
         });
@@ -2485,7 +2455,7 @@ btn.innerHTML = option;
         quizContainerMain.style.display = "block";
         loadQuestion();
     }
-</script>
 
-</body>
-</html>
+    
+        
+        
