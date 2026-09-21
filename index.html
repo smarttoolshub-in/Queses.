@@ -4,6 +4,28 @@
     <meta name="google-site-verification" content="xEymZ9ThRS4rpYEuodRwBhJD_bkIungjJ3YdxQGOmm0" />
     <title>Smart Reasoning Hub - All Chapters</title>
     <style>
+        /* डार्क मोड स्टाइल्स */
+body.dark-mode {
+    background-color: #0f172a !important;
+    color: #f8fafc !important;
+}
+body.dark-mode .sidebar {
+    background-color: #1e293b !important;
+}
+body.dark-mode .quiz-card {
+    background-color: #1e293b !important;
+    color: #f8fafc !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+body.dark-mode .option-btn {
+    background-color: #334155 !important;
+    color: #f8fafc !important;
+    border-color: #475569 !important;
+}
+body.dark-mode .option-btn:hover {
+    background-color: #475569 !important;
+        }
+        
         * {
             box-sizing: border-box;
             margin: 0;
@@ -255,6 +277,7 @@
 </head>
 <body>
     <header>
+        <button onclick="toggleDarkMode()" id="darkModeBtn" class="header-btn" style="background: #334155; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; display: inline-flex; align-items: center; gap: 5px;">🌙 डार्क मोड</button>
         <h2>🧠 Smart Reasoning Hub</h2>
         <div class="header-links">
             <a href="https://smarttoolshub-in.github.io/Queses/" target="_blank" class="header-btn math-btn">📚 Math Hub ➔</a>
@@ -2249,6 +2272,26 @@
         loadQuestion();
     }
 </script>
+    function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const btn = document.getElementById('darkModeBtn');
+    if (document.body.classList.contains('dark-mode')) {
+        btn.innerHTML = '☀️ लाइट मोड';
+        localStorage.setItem('theme', 'dark');
+    } else {
+        btn.innerHTML = '🌙 डार्क मोड';
+        localStorage.setItem('theme', 'light');
+    }
+}
+
+// पेज रीलोड होने पर पुरानी थीम याद रखने के लिए
+window.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        const btn = document.getElementById('darkModeBtn');
+        if (btn) btn.innerHTML = '☀️ लाइट मोड';
+    }
+});
     <footer style="background-color: #0b132b; color: #ffffff; text-align: center; padding: 25px 15px; font-family: sans-serif; margin-top: 40px; border-top: 1px solid #1e293b;">
     <p style="margin: 0 0 10px 0; font-size: 15px; font-weight: 500;">
         SmartToolsHub - आपका अपना स्मार्ट टूल पोर्टल
