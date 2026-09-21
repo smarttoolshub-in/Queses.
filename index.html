@@ -2339,14 +2339,27 @@
         isTimerOn = document.getElementById("timerToggle").checked;
     }
 
-    function loadChapter(chapterName) {
-    function loadChapter(chapterName) {
+   function loadChapter(chapterName) {
     document.querySelectorAll(".chapter-btn").forEach(b => b.classList.remove("active"));
     
-    // यह लाइन अब एरर नहीं आने देगी और सेफ रहेगी
     if (typeof event !== 'undefined' && event && event.target) {
         event.target.classList.add("active");
     }
+
+    currentChapter = chapterName;
+currentQuestions = quizData[chapterName] || [
+    { "q": "इस चैप्टर के सवाल जल्द जोड़े जाएंगे!", "options": ["विकल्प 1", "विकल्प 2", "विकल्प 3", "विकल्प 4"], "answer": 0, "fact": "जल्द ही अपडेट किया जाएगा" }
+];
+    currentQuestionIndex = 0;
+    score = 0;
+    
+    welcomeMsg.style.display = "none";
+    scoreCard.style.display = "none";
+    quizContainerMain.style.display = "block";
+    
+    document.getElementById("level-badge").innerText = chapterName;
+    loadQuestion();
+   }
 
     currentChapter = chapterName;
     currentQuestions = quizData[chapterName] || [
