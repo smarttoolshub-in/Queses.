@@ -2341,7 +2341,10 @@
 
     function loadChapter(chapterName) {
         document.querySelectorAll(".chapter-btn").forEach(b => b.classList.remove("active"));
-        event.target.classList.add("active");
+        document.querySelectorAll(".chapter-btn").forEach(b => b.classList.remove("active"));
+if (typeof event !== 'undefined' && event && event.target) {
+    event.target.classList.add("active");
+}
 
         currentChapter = chapterName;
         currentQuestions = quizData[chapterName] || [
