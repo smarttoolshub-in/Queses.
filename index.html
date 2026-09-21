@@ -1222,13 +1222,13 @@
         
         document.getElementById("progress-text").innerText = `सवाल: ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
         const currentQuiz = currentQuestions[currentQuestionIndex];
-        document.getElementById("question").innerText = `Q. ${currentQuiz.q}`;
+document.getElementById("question").innerHTML = `Q. ${currentQuiz.q}`;
         
         const optionsBox = document.getElementById("options-box");
         optionsBox.innerHTML = "";
         currentQuiz.options.forEach((option, index) => {
             const btn = document.createElement("button");
-            btn.innerText = option;
+btn.innerHTML = option;
             btn.onclick = () => selectOption(index, btn);
             optionsBox.appendChild(btn);
         });
