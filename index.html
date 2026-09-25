@@ -2143,7 +2143,7 @@ body.dark-mode .option-btn:hover {
     let currentQuestions = [];
     let currentQuestionIndex = 0;
     let score = 0;
-    let timeLeft = 15;
+    let timeLeft = 30;
     let timerInterval;
     let isTimerOn = true;
 
@@ -2186,7 +2186,7 @@ body.dark-mode .option-btn:hover {
         }
         
         timerDisplay.style.display = "inline-block";
-        timeLeft = 15;
+        timeLeft = 30;
         timerDisplay.innerText = `⏱️ ${timeLeft}s`;
         
         timerInterval = setInterval(() => {
